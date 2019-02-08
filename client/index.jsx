@@ -18,7 +18,7 @@ class Checkout extends React.Component {
       serviceFee: 0,
       checkIn: '',
       checkOut: '',
-      reervations: '',
+      reservations: ''
     }
   }
 
