@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Form from './components/checkout.jsx';
 import $ from 'jquery';
+import 'react-dates/initialize';
+// css not loading
+import 'react-dates/lib/css/_datepicker.css';
+import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -13,16 +17,23 @@ class Checkout extends React.Component {
       stars: 0,
       cleaningFee: 0,
       guests: 0,
-      serviceFee: 0
+      serviceFee: 0,
+      checkIn: '',
+      checkOut: '',
+      reservations: '',
+      startDate: null,
+      endDate: null,
+      focusedInput: null
     }
   }
 
 // Calls the fetcher on load to get a room from the database
   componentDidMount() {
-    this.fetcher();
+    this.fetchRoom();
+    this.fetchBookings();
   }
 
-  fetcher() {
+  fetchRoom() {
     $.ajax({
       url: '/rooms/2',
       type: 'GET',
@@ -44,10 +55,50 @@ class Checkout extends React.Component {
     });
   }
 
+  fetchBookings() {
+    $.ajax({
+      url: '/rooms/bookings/2',
+      type: 'get',
+      success: (results) => {
+        console.log('reservations returned');
+        this.setState({
+          reservations: results.checkin + '-' + results.checkout
+        })
+      }
+    })
+  }
+
+  makeReservation() {
+    $.ajax({
+      url: '/rooms/2',
+      type: 'post',
+      data: {
+        checkIn: this.state.checkIn,
+        checkOut: this.state.checkOut
+      },
+      success: () => {
+        console.log('reserved');
+      },
+      error: ()=> {
+        console.log('failed to book');
+      }
+    });
+  }
+
+
+
   render() {
     return (
       <div>
-        <Form info={this.state}/>
+        <DateRangePicker
+          startDateId="startDate"
+          endDateId="endDate"
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate })}}
+          focusedInput={this.state.focusedInput}
+          onFocusChange={(focusedInput) => { this.setState({ focusedInput })}}
+        />
       </div>
     )
   }
