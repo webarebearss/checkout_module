@@ -1,0 +1,51 @@
+$width: 350px;
+$height: 50px;
+$font-family: Arial, Helvetica, sans-serif;
+$border-bot: 1px solid rgb(218, 216, 216);
+
+body {
+    width: $width;
+    justify-content: center;
+    text-align: center;
+    font-family: $font-family;
+    border: 1px solid black;
+}
+
+.header {
+    margin: 18px auto 18px auto;
+    font-size: 12px;
+    padding-bottom: 18px;
+    width: $width * .9;
+
+    text-align: left;
+    border-bottom: $border-bot;   
+}
+
+.price {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.form-form {
+    margin: 0px auto 0px auto;
+    width: $width * .9;
+}
+
+.form-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $height;
+    border-bottom: $border-bot;   
+}
+
+.sub-but {
+    width: $width * .9;
+    height: $height;
+    margin: 10px 0px 10px 0px;
+    background-color: rgb(248, 125, 125);
+    font-size: 18px;
+    color: white;
+    border-radius: 8px;
+    border: none;
+}

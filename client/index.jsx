@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Form from './components/form.jsx';
+import FormBot from './components/form-bot.jsx';
+import Header from './components/form-top.jsx';
 import $ from 'jquery';
 import moment from 'moment';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker } from 'react-dates';
+import './styles/input.scss';
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -168,27 +170,31 @@ class Checkout extends React.Component {
   render() {
     return (
       <div>
-      <div>
-        <DateRangePicker
-          startDateId="startDate"
-          endDateId="endDate"
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          onDatesChange={({ startDate, endDate }) => { 
-            this.setState({ startDate, endDate }, () => {this.calculateDays()})
-          }}
-          focusedInput={this.state.focusedInput}
-          showClearDates={true}
-          minimumNights={this.state.minNights}
-          isDayBlocked={this.isDayBlocked.bind(this)}
-          onFocusChange={(focusedInput) => { 
-            this.setState({ focusedInput })
-          }}
-        />
-      </div>
-      <div>
-        <Form checkOpenings={this.checkOpenings.bind(this)} prop={this.state}/>
-      </div>
+        <div>
+          <Header info={this.state}/>
+        </div>
+        <div>
+          <DateRangePicker
+            startDateId="startDate"
+            endDateId="endDate"
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onDatesChange={({ startDate, endDate }) => { 
+              this.setState({ startDate, endDate }, () => {this.calculateDays()})
+            }}
+            focusedInput={this.state.focusedInput}
+            showClearDates={true}
+            numberOfMonths={1}
+            minimumNights={this.state.minNights}
+            isDayBlocked={this.isDayBlocked.bind(this)}
+            onFocusChange={(focusedInput) => { 
+              this.setState({ focusedInput })
+            }}
+          />
+        </div>
+        <div>
+          <FormBot checkOpenings={this.checkOpenings.bind(this)} prop={this.state}/>
+        </div>
       </div>
     )
   }
