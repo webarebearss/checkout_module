@@ -2,6 +2,9 @@ $width: 350px;
 $height: 50px;
 $font-family: Arial, Helvetica, sans-serif;
 $border-bot: 1px solid rgb(218, 216, 216);
+$button-size: 24px;
+$small-font: 13px;
+
 
 body {
     width: $width;
@@ -13,12 +16,20 @@ body {
 
 .header {
     margin: 18px auto 18px auto;
-    font-size: 12px;
+    font-size: $small-font;
     padding-bottom: 18px;
     width: $width * .9;
 
     text-align: left;
     border-bottom: $border-bot;   
+}
+
+.text-header {
+    margin: 18px auto 5px auto;
+    justify-content: center;
+    font-size: $small-font;
+    width: $width * .9;
+    text-align: left;
 }
 
 .price {
@@ -36,7 +47,29 @@ body {
     align-items: center;
     justify-content: space-between;
     height: $height;
-    border-bottom: $border-bot;   
+    border-bottom: $border-bot;
+    color: rgb(90, 90, 90);
+}
+
+.form-total {
+    @extend .form-line;
+    font-weight: bold;
+    border: none;
+    color: black;
+}
+
+.line-value {
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+
+.line-value button {
+    height: $button-size;
+    width: $button-size;
+    border-radius: 50%;
+    color: red;
+    border: 1px solid red;
 }
 
 .sub-but {

@@ -30,28 +30,33 @@ class FormBot extends React.Component {
     render() {
         return(
         <div className="form-form">
-            <button onClick={this.decrease.bind(this)}>-</button>
-            {this.state.guests}
-            <button onClick={this.increase.bind(this)}>+</button>
-            
+            <div className="form-line">
+                <div className="line-label">Guests: </div>
+                <div className="line-value">
+                <button onClick={this.decrease.bind(this)}> - </button>
+                {this.state.guests}
+                <button onClick={this.increase.bind(this)}> + </button>
+                </div>
+            </div>
+
             <div className="form-line">
                 <div className="line-label">{this.props.prop.numNights} night(s) x ${this.props.prop.nightlyPrice}</div>
-                <div className="line-value">${this.props.prop.numNights * this.props.prop.nightlyPrice}</div>
+                <div>${this.props.prop.numNights * this.props.prop.nightlyPrice}</div>
             </div>
 
             <div className="form-line">
                 <div className="line-label">Service Fee:</div>
-                <div className="line-value">${this.props.prop.serviceFee}</div>
+                <div>${this.props.prop.serviceFee}</div>
             </div>
 
             <div className="form-line">
                 <div className="line-label">Cleaning Fee: </div> 
-                <div className="line-value">${this.props.prop.cleaningFee}</div>
+                <div>${this.props.prop.cleaningFee}</div>
             </div>
             
-            <div className="form-line">
+            <div className="form-total">
                 <div className="line-label">Total: </div> 
-                <div className="line-value">${this.props.prop.numNights * this.props.prop.nightlyPrice + this.props.prop.serviceFee + this.props.prop.cleaningFee}</div>
+                <div>${this.props.prop.numNights * this.props.prop.nightlyPrice + this.props.prop.serviceFee + this.props.prop.cleaningFee}</div>
             </div>
 
              <form onSubmit={(event) => {
