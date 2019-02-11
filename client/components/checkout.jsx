@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Form = (props) => (
-  <div className='checkout-form'>
+const Details = (props) => (
+  <div className='checkout-details'>
     <div className='price'>${props.info.price} per night</div>
     <div className='reviews'>
       <span> Stars: {props.info.stars} Reviews: {props.info.reviews}</span>
@@ -9,4 +9,4 @@ const Form = (props) => (
   </div>
 )
 
-export default Form;
+export default Details;

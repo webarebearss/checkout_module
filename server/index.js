@@ -13,14 +13,14 @@ let port = 3000;
 // calls getUsers to query the db with a variable listingId and returns the entry that matchs the params
 app.get('/rooms/:listingId', (req, res) => {
   db.getRoom(req.params.listingId).then(records => {
-    console.log(records);
+    console.log('server get listings: ', records);
     res.send(records);
   });
 });
 
 app.get('/rooms/bookings/:listingId', (req, res) => {
   db.getBookings(req.params.listingId).then(records => {
-    console.log(records);
+    console.log('server get bookings: ', records);
     res.send(records);
   });
 });

@@ -10,12 +10,15 @@ exports.up = function(knex, Promise) {
       table.integer('cleaningFee');
       table.integer('serviceFee');
       table.integer('guests');
+      table.integer('minNights');
     }),
 
     knex.schema.createTable('bookings', function(table) {
       table.increments('id').primary();
       table.string('checkin');
       table.string('checkout');
+      table.integer('numGuests');
+      table.integer('total');
       table.integer('listing_id').unsigned()
         .references('listings.id');
     })
