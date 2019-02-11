@@ -91,10 +91,14 @@ class Checkout extends React.Component {
     var conflict = false;
     var resDates = this.state.reservedDays;
 
-    for (var j = 0; j < resDates.length; j++) {
-      if (moment(resDates[j][0], "MM-DD-YYYY").isBetween(this.state.startDate, this.state.endDate)) {
-        conflict = true;
-        break;
+    if (this.state.startDate === null || this.state.endDate === null) {
+      conflict = true;
+    } else {
+      for (var j = 0; j < resDates.length; j++) {
+        if (moment(resDates[j][0], "MM-DD-YYYY").isBetween(this.state.startDate, this.state.endDate)) {
+          conflict = true;
+          break;
+        }
       }
     }
 
@@ -173,6 +177,7 @@ class Checkout extends React.Component {
         <div>
           <Header info={this.state}/>
         </div>
+        <div className="text-header">Dates</div>
         <div>
           <DateRangePicker
             startDateId="startDate"
