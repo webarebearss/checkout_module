@@ -88,3 +88,13 @@ body {
     border-radius: 8px;
     border: none;
 }
+
+.reviews {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    div {
+        margin-right: 5px;
+    }
+}
