@@ -109,6 +109,7 @@ class Checkout extends React.Component {
         startDate: null,
         endDate: null
       });
+      
       console.log('conflict');
       conflict = false;
     } else {   
@@ -190,6 +191,14 @@ class Checkout extends React.Component {
             focusedInput={this.state.focusedInput}
             showClearDates={true}
             numberOfMonths={1}
+            calendarInfoPosition={"bottom"}
+            renderCalendarInfo={() => {
+              return <div className="footer"> 
+                <div>{this.state.minNights + ' night(s) minimum'}</div>
+                <div>{this.state.maxGuests + ' guests allowed'}</div>
+              </div>
+              }}
+            hideKeyboardShortcutsPanel={true}
             minimumNights={this.state.minNights}
             isDayBlocked={this.isDayBlocked.bind(this)}
             onFocusChange={(focusedInput) => { 
