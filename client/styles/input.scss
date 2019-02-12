@@ -1,0 +1,117 @@
+$width: 350px;
+$height: 50px;
+$font-family: Arial, Helvetica, sans-serif;
+$border-bot: 1px solid rgb(218, 216, 216);
+$button-size: 24px;
+$small-font: 13px;
+
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
+
+#app {
+    // absolute will "link" the two devs together
+    // can't remember if it gives equal margins
+    // fixed is for floating
+    @include position(fixed, $top: 20px, $left: 60%);
+    width: $width;
+    height: auto;
+    justify-content: center;
+    text-align: center;
+    font-family: $font-family;
+    border: 1px solid rgb(206, 206, 206);
+}
+
+.header {
+    margin: 18px auto 18px auto;
+    font-size: $small-font;
+    padding-bottom: 18px;
+    width: $width * .9;
+
+    text-align: left;
+    border-bottom: $border-bot;   
+}
+
+.text-header {
+    margin: 18px auto 5px auto;
+    justify-content: center;
+    font-size: $small-font;
+    width: $width * .9;
+    text-align: left;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.form-form {
+    margin: 0px auto 0px auto;
+    width: $width * .9;
+}
+
+.form-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $height;
+    border-bottom: $border-bot;
+    color: rgb(90, 90, 90);
+}
+
+.form-total {
+    @extend .form-line;
+    font-weight: bold;
+    border: none;
+    color: black;
+}
+
+.footer {
+    color: rgb(90, 90, 90);
+    font-size: $small-font;
+    padding: 0px 0px 10px 10px;
+}
+
+.line-value {
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+
+.line-value button {
+    height: $button-size;
+    width: $button-size;
+    border-radius: 50%;
+    color: red;
+    border: 1px solid red;
+}
+
+.sub-but {
+    width: $width * .9;
+    height: $height;
+    margin: 10px 0px 10px 0px;
+    background-color: rgb(248, 125, 125);
+    font-size: 18px;
+    color: white;
+    border-radius: 8px;
+    border: none;
+}
+
+.reviews {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    div {
+        margin-right: 5px;
+    }
+}
+
+.warning {
+    font-size: 18px;
+    margin: 18px 0px 0px 0px;
+}

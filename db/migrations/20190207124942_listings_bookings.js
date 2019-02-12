@@ -11,6 +11,10 @@ exports.up = function(knex, Promise) {
       table.integer('serviceFee');
       table.integer('guests');
       table.integer('minNights');
+      table.text('introDesc');
+      table.text('spaceDesc');
+      table.text('guestDesc');
+      table.text('otherDesc');
     }),
 
     knex.schema.createTable('bookings', function(table) {
