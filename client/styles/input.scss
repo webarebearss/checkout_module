@@ -26,6 +26,11 @@ $small-font: 13px;
     border: 1px solid rgb(206, 206, 206);
 }
 
+.footer {
+    @include position(fixed, $bottom: 0px, $left: 0px);
+    width: 100%;
+}
+
 .header {
     margin: 18px auto 18px auto;
     font-size: $small-font;
