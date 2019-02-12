@@ -14,7 +14,8 @@ class ListDesc extends React.Component {
             introDesc: '',
             spaceDesc: '',
             guestDesc: '',
-            otherDesc: ''
+            otherDesc: '',
+            open: false
         }
     }
     componentDidMount() {
@@ -43,7 +44,13 @@ class ListDesc extends React.Component {
             console.log('err');
           }
         });
-      }
+    }
+
+    toggle() {
+        this.setState({
+            open: !this.state.open
+        });
+    }
 
     render() {
         return(
@@ -53,6 +60,7 @@ class ListDesc extends React.Component {
                 <div className="headers">
                     <div><i class="fas fa-paw"></i> {this.state.maxGuests} guests</div>
                     <div><i class="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
+                    <div><i class="fas fa-bed"></i> {this.state.maxGuests} beds</div>
                     <div><i class="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
                 </div>
                 <div className="highlights">
@@ -60,12 +68,24 @@ class ListDesc extends React.Component {
                     {this.state.highlights}
                 </div>
                 <div className="introDesc">{this.state.introDesc}</div>
-                <div className="section-header">The Space</div>
-                <div className="spaceDesc">{this.state.spaceDesc}</div>
-                <div className="section-header">Interaction with guests</div>
-                <div className="guestDesc">{this.state.guestDesc}</div>
-                <div className="section-header">Other things to note</div>
-                <div className="otherDesc">{this.state.otherDesc}</div>
+
+
+                <div className={"extras" + (this.state.open ? ' open': ' close')}>
+                    <div className="section-header">The Space</div>
+                    <div className="spaceDesc">{this.state.spaceDesc}</div>
+                    <div className="section-header">Interaction with guests</div>
+                    <div className="guestDesc">{this.state.guestDesc}</div>
+                    <div className="section-header">Other things to note</div>
+                    <div className="otherDesc">{this.state.otherDesc}</div>
+                </div>
+
+                <button className="more-info" onClick={this.toggle.bind(this)}> 
+                    {this.state.open ? 
+                    <React.Fragment>{'Hide '}<i class="fas fa-angle-up"></i></React.Fragment>
+                    : 
+                    <React.Fragment>{'Read more about the space '}<i class="fas fa-angle-down"></i></React.Fragment>                    
+                    }
+                </button>
             </div>
         )
     }

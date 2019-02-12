@@ -53,6 +53,28 @@ body {
         margin: 10px 0px 10px 0px;
         font-weight: bold;
     }
+
+    .extras.open{
+        display: block;
+    }
+
+    .extras.close{
+        display: none;
+    }
+
+    .more-info {
+        border: none;
+        margin: 18px 0px 18px 0px;
+        font-size: 18px;
+        padding: 0;
+        color:  rgb(31, 197, 189);
+    }
+    .more-info:hover {
+        text-decoration: underline;
+    }
+    .more-info:focus {
+        outline: 0;
+    }
 }
 
 #desc {

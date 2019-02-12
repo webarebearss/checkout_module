@@ -141,7 +141,8 @@ class Checkout extends React.Component {
           startDate: null,
           endDate: null,
           numNights: 0,
-          numGuests: 1
+          numGuests: 1,
+          showPayment: false
         })
         $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
       },
@@ -216,7 +217,7 @@ class Checkout extends React.Component {
           />
         </div>
         <div>
-          <FormBot checkOpenings={this.checkOpenings.bind(this)} prop={this.state}/>
+          <FormBot checkOpenings={this.checkOpenings.bind(this)} details={this.state}/>
         </div>
       </div>
     )
