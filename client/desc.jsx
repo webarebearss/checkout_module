@@ -8,6 +8,9 @@ class ListDesc extends React.Component {
         super(props);
         this.state = {
             maxGuests: 0,
+            title: '',
+            address: '',
+            highlights: '',
             introDesc: '',
             spaceDesc: '',
             guestDesc: '',
@@ -27,6 +30,9 @@ class ListDesc extends React.Component {
             // sets the state to include properties of the retrieved room
             this.setState({
                 maxGuests: results[0].guests,
+                title: results[0].title,
+                address: results[0].address,
+                highlights: results[0].highlights,
                 introDesc: results[0].introDesc,
                 spaceDesc: results[0].spaceDesc,
                 guestDesc: results[0].guestDesc,
@@ -42,6 +48,17 @@ class ListDesc extends React.Component {
     render() {
         return(
             <div className="container">
+                <div className="title">{this.state.title}</div>
+                <div className="address">{this.state.address}</div>
+                <div className="headers">
+                    <div><i class="fas fa-paw"></i> {this.state.maxGuests} guests</div>
+                    <div><i class="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
+                    <div><i class="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
+                </div>
+                <div className="highlights">
+                    <div className="section-header">HOME HIGHLIGHTS</div>
+                    {this.state.highlights}
+                </div>
                 <div className="introDesc">{this.state.introDesc}</div>
                 <div className="section-header">The Space</div>
                 <div className="spaceDesc">{this.state.spaceDesc}</div>

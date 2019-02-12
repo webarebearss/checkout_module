@@ -29,6 +29,9 @@ const createFakeData = () => ({
     'min': 1,
     'max': 3
   }),
+  title: faker.name.firstName() + `'s ` + faker.company.catchPhraseAdjective() + ' Home',
+  address: faker.address.streetAddress(),
+  highlights: faker.lorem.paragraph(nb_sentences=faker.random.number({'min': 1, 'max': 4})),
   introDesc: faker.lorem.paragraph(nb_sentences=5, variable_nb_sentences=true),
   spaceDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 6})),
   guestDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 3})),
