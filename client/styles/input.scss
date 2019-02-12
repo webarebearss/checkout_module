@@ -5,13 +5,25 @@ $border-bot: 1px solid rgb(218, 216, 216);
 $button-size: 24px;
 $small-font: 13px;
 
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
 
-body {
+#app {
+    // absolute will "link" the two devs together
+    // can't remember if it gives equal margins
+    // fixed is for floating
+    @include position(fixed, $top: 20px, $left: 60%);
     width: $width;
+    height: auto;
     justify-content: center;
     text-align: center;
     font-family: $font-family;
-    border: 1px solid black;
+    border: 1px solid rgb(206, 206, 206);
 }
 
 .header {

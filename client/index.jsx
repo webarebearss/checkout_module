@@ -137,6 +137,13 @@ class Checkout extends React.Component {
       success: () => {
         console.log('reserved');
         this.fetchBookings();
+        this.setState({
+          startDate: null,
+          endDate: null,
+          numNights: 0,
+          numGuests: 1
+        })
+        $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
       },
       error: ()=> {
         console.log('failed to book');

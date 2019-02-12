@@ -28,7 +28,11 @@ const createFakeData = () => ({
   minNights: faker.random.number({
     'min': 1,
     'max': 3
-  })
+  }),
+  introDesc: faker.lorem.paragraph(nb_sentences=5, variable_nb_sentences=true),
+  spaceDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 6})),
+  guestDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 3})),
+  otherDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 3}))
 });
 
 exports.seed = async function(knex, Promise) {
