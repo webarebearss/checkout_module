@@ -87,8 +87,6 @@ class Checkout extends React.Component {
   // Checks to see if any dates between start and end have already been booked
   checkOpenings(event, data) {
     event.preventDefault();
-    console.log(data);
-
     var conflict = false;
     var resDates = this.state.reservedDays;
 
@@ -112,10 +110,10 @@ class Checkout extends React.Component {
         showPayment: false
       });
       
-      console.log('conflict');
+      $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
+
       conflict = false;
     } else {   
-      console.log('no conflict');
       this.makeReservation(data);
     }
   }
