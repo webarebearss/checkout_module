@@ -23,6 +23,7 @@ class Checkout extends React.Component {
       maxGuests: 0,
       numGuests: 1,
       numNights: 0,
+      showPayment: false,
       startDate: null,
       endDate: null,
       focusedInput: null,
@@ -107,7 +108,8 @@ class Checkout extends React.Component {
     if (conflict) {
       this.setState({
         startDate: null,
-        endDate: null
+        endDate: null,
+        showPayment: false
       });
       
       console.log('conflict');
@@ -150,12 +152,14 @@ class Checkout extends React.Component {
     console.log('hello');
     if (this.state.startDate !== null && this.state.endDate !== null) {
       this.setState({
-        numNights: (this.state.endDate).diff(this.state.startDate, 'days')
+        numNights: (this.state.endDate).diff(this.state.startDate, 'days'),
+        showPayment: true
       })
     } else {
       console.log('null');
       this.setState({
-        numNights: 0
+        numNights: 0,
+        showPayment: false
       })
     }
   }
