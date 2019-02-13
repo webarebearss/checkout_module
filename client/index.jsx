@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FormBot from './components/form-bot.jsx';
-import Header from './components/form-top.jsx';
+import Media from 'react-media';
+import Modal from 'react-modal';
 import $ from 'jquery';
 import moment from 'moment';
+import './styles/input.scss';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker } from 'react-dates';
-import './styles/input.scss';
+import FormBot from './components/form-bot.jsx';
+import Header from './components/form-top.jsx';
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -28,11 +30,20 @@ class Checkout extends React.Component {
       endDate: null,
       focusedInput: null,
       reservedDays: [],
-      clearDates: true
+      modalOpen: false
     }
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
-// Pulls listing details and reservations for the room on page load
+  openModal() {
+    this.setState({modalOpen: true});
+  }
+  closeModal() {
+    this.setState({modalOpen: false});
+  }
+
   componentDidMount() {
     this.fetchRoom();
     this.fetchBookings();
@@ -44,8 +55,6 @@ class Checkout extends React.Component {
       url: '/rooms/1',
       type: 'GET',
       success: (results) => {
-        console.log('results returned');
-        // sets the state to include properties of the retrieved room
         this.setState({
           nightlyPrice: results[0].price,
           reviews: results[0].reviews,
@@ -73,7 +82,6 @@ class Checkout extends React.Component {
       url: '/rooms/bookings/1',
       type: 'get',
       success: (results) => {
-        console.log('reservations returned');
         for (var i = 0; i < results.length; i++) {
           var newState = this.state.reservedDays.concat([[results[i].checkin, results[i].checkout]]);
           this.setState({
@@ -110,8 +118,11 @@ class Checkout extends React.Component {
         showPayment: false
       });
       
-      $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
-
+      if (this.state.modalOpen) {
+        $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.modal').fadeOut(1500);
+      } else {
+        $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
+      }
       conflict = false;
     } else {   
       this.makeReservation(data);
@@ -135,15 +146,21 @@ class Checkout extends React.Component {
       },
       // On successful booking, makes a GET request to update the list of blockedDays
       success: () => {
-        console.log('reserved');
         this.fetchBookings();
         this.setState({
           startDate: null,
           endDate: null,
           numNights: 0,
-          numGuests: 1
+          numGuests: 1,
+          showPayment: false
         })
-        $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
+
+        if (this.state.modalOpen) {
+          $("<div class='warning'>Successfully booked</div>").prependTo('.modal').fadeOut(2000);
+
+        } else {
+          $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
+        }
       },
       error: ()=> {
         console.log('failed to book');
@@ -154,7 +171,6 @@ class Checkout extends React.Component {
   // Calculates the number of nights the reservation is
   // Only calculates if both startDate and endDate have non-null values
   calculateDays() {
-    console.log('hello');
     if (this.state.startDate !== null && this.state.endDate !== null) {
       this.setState({
         numNights: (this.state.endDate).diff(this.state.startDate, 'days'),
@@ -183,42 +199,104 @@ class Checkout extends React.Component {
 
   render() {
     return (
-      <div>
         <div>
-          <Header info={this.state}/>
-        </div>
-        <div className="text-header">Dates</div>
-        <div>
-          <DateRangePicker
-            startDateId="startDate"
-            endDateId="endDate"
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            onDatesChange={({ startDate, endDate }) => { 
-              this.setState({ startDate, endDate }, () => {this.calculateDays()})
-            }}
-            focusedInput={this.state.focusedInput}
-            showClearDates={true}
-            numberOfMonths={1}
-            calendarInfoPosition={"bottom"}
-            renderCalendarInfo={() => {
-              return <div className="footer"> 
-                <div>{this.state.minNights + ' night(s) minimum'}</div>
-                <div>{this.state.maxGuests + ' guests allowed'}</div>
+          <Media query="(min-width: 1150px)">
+            {matches =>
+              matches ? (
+              <div>
+                <div>
+                  <Header info={this.state}/>
+                </div>
+                <div className="text-header">Dates</div>
+                <div>
+                  <DateRangePicker
+                    startDateId="startDate"
+                    endDateId="endDate"
+                    startDate={this.state.startDate}
+                    endDate={this.state.endDate}
+                    onDatesChange={({ startDate, endDate }) => { 
+                      this.setState({ startDate, endDate }, () => {this.calculateDays()})
+                    }}
+                    focusedInput={this.state.focusedInput}
+                    showClearDates={true}
+                    numberOfMonths={1}
+                    calendarInfoPosition={"bottom"}
+                    renderCalendarInfo={() => {
+                      return <div className="info"> 
+                        <div>{this.state.minNights + ' night(s) minimum'}</div>
+                        <div>{this.state.maxGuests + ' guests allowed'}</div>
+                      </div>
+                      }}
+                    hideKeyboardShortcutsPanel={true}
+                    minimumNights={this.state.minNights}
+                    isDayBlocked={this.isDayBlocked.bind(this)}
+                    onFocusChange={(focusedInput) => { 
+                      this.setState({ focusedInput })
+                    }}
+                  />
+                </div>
+                <div>
+                  <FormBot checkOpenings={this.checkOpenings.bind(this)} details={this.state}/>
+                </div>
               </div>
-              }}
-            hideKeyboardShortcutsPanel={true}
-            minimumNights={this.state.minNights}
-            isDayBlocked={this.isDayBlocked.bind(this)}
-            onFocusChange={(focusedInput) => { 
-              this.setState({ focusedInput })
-            }}
-          />
+              ) : (
+                <div>
+                  <div>
+                    <div className="footer">
+                      <Header info={this.state} />
+                      <button className="sub-but" onClick={this.openModal}>BOOK</button>
+                    </div>
+
+                    {/* Popup checkout module */}
+                    <Modal
+                      isOpen={this.state.modalOpen}
+                      onRequestClose={this.closeModal}
+                      className="modal"
+                      contentLabel="Example Modal"
+                    >
+                      <button className="close-but" onClick={this.closeModal}>X</button>
+
+                      <div>
+                        <Header info={this.state}/>
+                      </div>
+                      <div className="text-header">Dates</div>
+                      <div>
+                        <DateRangePicker
+                          startDateId="startDate"
+                          endDateId="endDate"
+                          startDate={this.state.startDate}
+                          endDate={this.state.endDate}
+                          onDatesChange={({ startDate, endDate }) => { 
+                            this.setState({ startDate, endDate }, () => {this.calculateDays()})
+                          }}
+                          focusedInput={this.state.focusedInput}
+                          showClearDates={true}
+                          numberOfMonths={1}
+                          calendarInfoPosition={"bottom"}
+                          renderCalendarInfo={() => {
+                            return <div className="info"> 
+                              <div>{this.state.minNights + ' night(s) minimum'}</div>
+                              <div>{this.state.maxGuests + ' guests allowed'}</div>
+                            </div>
+                            }}
+                          hideKeyboardShortcutsPanel={true}
+                          minimumNights={this.state.minNights}
+                          isDayBlocked={this.isDayBlocked.bind(this)}
+                          onFocusChange={(focusedInput) => { 
+                            this.setState({ focusedInput })
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <FormBot checkOpenings={this.checkOpenings.bind(this)} details={this.state}/>
+                      </div>
+                    </Modal>
+                  </div>
+                </div>
+              )
+            }
+          </Media>
         </div>
-        <div>
-          <FormBot checkOpenings={this.checkOpenings.bind(this)} prop={this.state}/>
-        </div>
-      </div>
     )
   }
 }
