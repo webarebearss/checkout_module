@@ -15,6 +15,8 @@ $small-font: 13px;
     background-color: white;
     padding: 18px;
     height: auto;
+    border: 1px solid rgb(206, 206, 206);
+    outline: none;
 }
 
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
@@ -51,6 +53,11 @@ $small-font: 13px;
     }
 }
 
+.price {
+    font-weight: bold;
+    font-size: 22px;
+}
+
 .header {
     margin: 18px auto 18px auto;
     font-size: $small-font;
@@ -58,11 +65,22 @@ $small-font: 13px;
     width: $width * .9;
     text-align: left;
     border-bottom: $border-bot;   
+    
+    .reviews {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        
+        div {
+            margin-right: 5px;
+        }
+    }
 }
+
 
 .footer {
     display: flex;
-    width: 300px;
+    width: 500px;
     justify-content: space-between;
 
     .header {
@@ -102,31 +120,46 @@ $small-font: 13px;
     text-align: left;
 }
 
-.price {
-    font-weight: bold;
-    font-size: 22px;
-}
 
 .form-form {
     margin: 0px auto 0px auto;
     width: $width * .9;
+
+    .form-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: $height;
+        border-bottom: $border-bot;
+        color: rgb(90, 90, 90);
+
+        .line-value {
+            display: flex;
+            width: 100px;
+            justify-content: space-between;
+            
+            button {
+                height: $button-size;
+                width: $button-size;
+                border-radius: 50%;
+                color: red;
+                border: 1px solid red;
+                
+                &:focus {
+                    outline: 0;
+                }
+            }
+        }
+    }
+    .form-total {
+        @extend .form-line;
+        font-weight: bold;
+        border: none;
+        color: black;
+    }
 }
 
-.form-line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: $height;
-    border-bottom: $border-bot;
-    color: rgb(90, 90, 90);
-}
 
-.form-total {
-    @extend .form-line;
-    font-weight: bold;
-    border: none;
-    color: black;
-}
 
 .info {
     color: rgb(90, 90, 90);
@@ -134,24 +167,6 @@ $small-font: 13px;
     padding: 0px 0px 10px 10px;
 }
 
-.line-value {
-    display: flex;
-    width: 100px;
-    justify-content: space-between;
-    
-    button {
-        height: $button-size;
-        width: $button-size;
-        border-radius: 50%;
-        color: red;
-        border: 1px solid red;
-        
-        &:focus {
-            outline: 0;
-        }
-    }
-    
-}
 
 .sub-but {
     width: $width * .9;
@@ -164,15 +179,6 @@ $small-font: 13px;
     border: none;
 }
 
-.reviews {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-
-    div {
-        margin-right: 5px;
-    }
-}
 
 .warning {
     font-size: 18px;
@@ -186,7 +192,7 @@ $small-font: 13px;
     justify-content: center;
     border-radius: 50%;
 
-    &.focus{
+    &:focus{
         outline: 0;
     }
 }

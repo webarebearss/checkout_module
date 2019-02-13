@@ -27,8 +27,6 @@ class ListDesc extends React.Component {
           url: '/rooms/1',
           type: 'GET',
           success: (results) => {
-            console.log('results returned');
-            // sets the state to include properties of the retrieved room
             this.setState({
                 maxGuests: results[0].guests,
                 title: results[0].title,
@@ -63,12 +61,13 @@ class ListDesc extends React.Component {
                     <div><i className="fas fa-bed"></i> {this.state.maxGuests} beds</div>
                     <div><i className="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
                 </div>
+
                 <div className="highlights">
                     <div className="section-header">HOME HIGHLIGHTS</div>
                     {this.state.highlights}
                 </div>
-                <div className="introDesc">{this.state.introDesc}</div>
 
+                <div className="introDesc">{this.state.introDesc}</div>
 
                 <div className={"extras" + (this.state.open ? ' open': ' close')}>
                     <div className="section-header">The Space</div>
@@ -81,10 +80,8 @@ class ListDesc extends React.Component {
 
                 <button className="more-info" onClick={this.toggle.bind(this)}> 
                     {this.state.open ? 
-                    <React.Fragment>{'Hide '}<i class="fas fa-angle-up"></i></React.Fragment>
-                    : 
-                    <React.Fragment>{'Read more about the space '}<i className="fas fa-angle-down"></i></React.Fragment>                    
-                    }
+                    <React.Fragment>{'Hide '}<i class="fas fa-angle-up"></i></React.Fragment> : 
+                    <React.Fragment>{'Read more about the space '}<i className="fas fa-angle-down"></i></React.Fragment>}
                 </button>
             </div>
         )
