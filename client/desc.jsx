@@ -58,10 +58,10 @@ class ListDesc extends React.Component {
                 <div className="title">{this.state.title}</div>
                 <div className="address">{this.state.address}</div>
                 <div className="headers">
-                    <div><i class="fas fa-paw"></i> {this.state.maxGuests} guests</div>
-                    <div><i class="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
-                    <div><i class="fas fa-bed"></i> {this.state.maxGuests} beds</div>
-                    <div><i class="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
+                    <div><i className="fas fa-paw"></i> {this.state.maxGuests} guests</div>
+                    <div><i className="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
+                    <div><i className="fas fa-bed"></i> {this.state.maxGuests} beds</div>
+                    <div><i className="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
                 </div>
                 <div className="highlights">
                     <div className="section-header">HOME HIGHLIGHTS</div>
@@ -83,7 +83,7 @@ class ListDesc extends React.Component {
                     {this.state.open ? 
                     <React.Fragment>{'Hide '}<i class="fas fa-angle-up"></i></React.Fragment>
                     : 
-                    <React.Fragment>{'Read more about the space '}<i class="fas fa-angle-down"></i></React.Fragment>                    
+                    <React.Fragment>{'Read more about the space '}<i className="fas fa-angle-down"></i></React.Fragment>                    
                     }
                 </button>
             </div>

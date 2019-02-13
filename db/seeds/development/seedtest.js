@@ -5,10 +5,11 @@ const createFakeData = () => ({
     'min': 70,
     'max': 150
   }),
-  stars: faker.random.number({
-    'min': 1,
-    'max': 5
-  }),
+  // stars: faker.random.number({
+  //   'min': 1,
+  //   'max': 5,
+  // }),
+  stars: faker.finance.amount(3,5,2),
   reviews: faker.random.number({
     'min': 10,
     'max': 300

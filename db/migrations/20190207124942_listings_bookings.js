@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('listings', function(table) {
       table.increments('id').primary();
       table.integer('price');
-      table.integer('stars');
+      table.decimal('stars');
       table.integer('reviews');
       table.integer('cleaningFee');
       table.integer('serviceFee');
