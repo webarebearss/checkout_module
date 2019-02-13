@@ -5,6 +5,18 @@ $border-bot: 1px solid rgb(218, 216, 216);
 $button-size: 24px;
 $small-font: 13px;
 
+.modal {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-40%, -50%);
+    background-color: white;
+    padding: 18px;
+    height: auto;
+}
+
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
     position: $position;
     top: $top;
@@ -165,4 +177,16 @@ $small-font: 13px;
 .warning {
     font-size: 18px;
     margin: 18px 0px 0px 0px;
+}
+
+.close-but {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.focus{
+        outline: 0;
+    }
 }

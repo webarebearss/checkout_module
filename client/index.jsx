@@ -11,17 +11,6 @@ import FormBot from './components/form-bot.jsx';
 import Header from './components/form-top.jsx';
 import Modal from 'react-modal';
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
-
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +31,7 @@ class Checkout extends React.Component {
       focusedInput: null,
       reservedDays: [],
       clearDates: true,
-      modalIsOpen: false
+      modalOpen: false
     }
 
     this.openModal = this.openModal.bind(this);
@@ -51,7 +40,7 @@ class Checkout extends React.Component {
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    this.setState({modalOpen: true});
   }
 
   afterOpenModal() {
@@ -60,7 +49,7 @@ class Checkout extends React.Component {
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({modalOpen: false});
   }
 
 // Pulls listing details and reservations for the room on page load
@@ -141,7 +130,11 @@ class Checkout extends React.Component {
         showPayment: false
       });
       
-      $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
+      if (this.state.modalOpen) {
+        $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.modal').fadeOut(1500);
+      } else {
+        $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
+      }
       conflict = false;
     } else {   
       this.makeReservation(data);
@@ -174,7 +167,13 @@ class Checkout extends React.Component {
           numGuests: 1,
           showPayment: false
         })
-        $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
+
+        if (this.state.modalOpen) {
+          $("<div class='warning'>Successfully booked</div>").prependTo('.modal').fadeOut(2000);
+
+        } else {
+          $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
+        }
       },
       error: ()=> {
         console.log('failed to book');
@@ -266,14 +265,14 @@ class Checkout extends React.Component {
 
                     {/* Popup checkout module */}
                     <Modal
-                      isOpen={this.state.modalIsOpen}
+                      isOpen={this.state.modalOpen}
                       onAfterOpen={this.afterOpenModal}
                       onRequestClose={this.closeModal}
-                      style={customStyles}
+                      className="modal"
                       contentLabel="Example Modal"
                     >
 
-                      <button onClick={this.closeModal}>close</button>
+                      <button className="close-but" onClick={this.closeModal}>X</button>
 
                         <div>
                           <Header info={this.state}/>
