@@ -142,7 +142,6 @@ class Checkout extends React.Component {
       });
       
       $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
-
       conflict = false;
     } else {   
       this.makeReservation(data);
@@ -214,20 +213,6 @@ class Checkout extends React.Component {
   }
 
   render() {
-
-    const modal = this.state.showModal ? (
-      <Modal>
-        <div className="modal">
-          <div>
-            With a portal, we can render content into a different
-            part of the DOM, as if it were any other React child.
-          </div>
-          This is being rendered inside the #modal-container div.
-          <button onClick={this.handleHide}>Hide modal</button>
-        </div>
-      </Modal>
-    ) : null;
-    
     return (
       <div>
         <div>
@@ -253,7 +238,7 @@ class Checkout extends React.Component {
                     numberOfMonths={1}
                     calendarInfoPosition={"bottom"}
                     renderCalendarInfo={() => {
-                      return <div className="footer"> 
+                      return <div className="info"> 
                         <div>{this.state.minNights + ' night(s) minimum'}</div>
                         <div>{this.state.maxGuests + ' guests allowed'}</div>
                       </div>
@@ -272,10 +257,13 @@ class Checkout extends React.Component {
               </div>
               ) : (
                 //Change the checkout
-                <div className="footer">
+                <div>
                   <div>
-                    <Header info={this.state} />
-                    <button className="sub-but" onClick={this.openModal}>BOOK</button>
+                    <div className="footer">
+                      <Header info={this.state} />
+                      <button className="sub-but" onClick={this.openModal}>BOOK</button>
+                    </div>
+
                     {/* Popup checkout module */}
                     <Modal
                       isOpen={this.state.modalIsOpen}
@@ -285,9 +273,7 @@ class Checkout extends React.Component {
                       contentLabel="Example Modal"
                     >
 
-                      {/* <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2> */}
                       <button onClick={this.closeModal}>close</button>
-
 
                         <div>
                           <Header info={this.state}/>
@@ -307,7 +293,7 @@ class Checkout extends React.Component {
                             numberOfMonths={1}
                             calendarInfoPosition={"bottom"}
                             renderCalendarInfo={() => {
-                              return <div className="footer"> 
+                              return <div className="info"> 
                                 <div>{this.state.minNights + ' night(s) minimum'}</div>
                                 <div>{this.state.maxGuests + ' guests allowed'}</div>
                               </div>
