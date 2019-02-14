@@ -121,8 +121,16 @@ describe('other functionality for FormBot', () => {
 
   const wrapper = mount(<FormBot details={state} />);
 
-  test('should not render the bottom form if showPayment is false', () => {
+  test('should not render the bottom form info if showPayment is false', () => {
     expect(wrapper.find('.form-form')).toHaveLength(0);
+  });
+
+  test('should have a submit button that will trigger a total to upddate', () => {
+    const checkOpenings = jest.fn();
+    const wrapper = mount(<FormBot details={state} checkOpenings={checkOpenings} />);
+    expect(wrapper.state('total')).toBe(0);
+    wrapper.find('.sub-but').simulate('submit');
+    expect(wrapper.state('total')).not.toBe(0);
   });
 
   test('should render the bottom form if showPayment is true', () => {
