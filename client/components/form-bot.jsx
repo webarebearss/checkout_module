@@ -11,7 +11,6 @@ class FormBot extends React.Component {
     }
     // Methods to increase or decrease the number of guests. Has logic that cap the guests
     decrease() {
-        console.log('dec');
         if (this.state.guests - 1 > 0) {
             this.setState({
                 guests: this.state.guests - 1
@@ -19,7 +18,6 @@ class FormBot extends React.Component {
         }
     }
     increase() {
-        console.log('inc');
         if (this.state.guests + 1 <= this.props.details.maxGuests) {
             this.setState({
                 guests: this.state.guests + 1
