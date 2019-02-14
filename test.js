@@ -14,7 +14,7 @@ describe('testing Stars component', () => {
     nightlyPrice: 50
   }
   
-  test('should have 6 spans', () => {
+  test('should have a total of 6 spans', () => {
     const wrapper = mount(<Header info={state} />);
     expect(wrapper.find('span')).toHaveLength(6);
   })
@@ -56,6 +56,70 @@ describe('testing Stars component', () => {
   });
 });
 
+describe('Testing of props in Header component', () => {
+  var state = {
+    stars: 4,
+    reviews: 400,
+    nightlyPrice: 50
+  }
+  const wrapper = shallow(<Header info={state} />);
+
+  test('should have stars component and number of reviewed inside one div', () => {
+    expect(wrapper.find('.reviews').children).toHaveLength(1);
+    expect(wrapper.find('.reviews').text()).toEqual('<Stars /> 400');
+  });
+
+  test('should render price per night in first child div', () => {
+    expect(wrapper.childAt(0).text()).toEqual('$50 per night');
+  });
+
+  test('should take price from passed props', () => {
+    state.nightlyPrice = 100;
+    const wrapper = shallow(<Header info={state} />);
+    expect(wrapper.childAt(0).text()).toEqual('$100 per night');
+  });
+});
+
+describe('increasing and decreasing guests in FormBot', () => {
+  var state = {
+    showPayment: true,
+    numNights: 3,
+    nightlyPrice: 50,
+    cleaningFee: 100,
+    serviceFee: 20,
+    maxGuests: 4,
+  }
+
+  const wrapper = mount(<FormBot details={state} />);
+
+  test('should increase this.state.guests when "+" button is clicked', () => {
+    wrapper.find('.plus').simulate('click');
+    expect(wrapper.state('guests')).toBe(2);
+  });
+
+  test('should not exceed mexGuests', () => {
+    wrapper.find('.plus').simulate('click');
+    expect(wrapper.state('guests')).toBe(3);
+    wrapper.find('.plus').simulate('click');
+    expect(wrapper.state('guests')).toBe(4);
+    wrapper.find('.plus').simulate('click');
+    expect(wrapper.state('guests')).toBe(4);
+  });
+  
+  test('should decrease this.state.guests when "+" button is clicked', () => {
+    wrapper.setState({guests: 2});
+    wrapper.find('.minus').simulate('click');
+    expect(wrapper.state('guests')).toBe(1);
+  });
+
+  test('should not go below 1 guest', () => {
+    wrapper.setState({guests: 2});
+    wrapper.find('.minus').simulate('click');
+    expect(wrapper.state('guests')).toBe(1);
+    wrapper.find('.minus').simulate('click');
+    expect(wrapper.state('guests')).toBe(1);
+  });
+});
 
 // test('snapshot', () => {
 //   var state = {
