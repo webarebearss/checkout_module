@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Enzyme, {mount, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Header from './client/components/form-top.jsx';
 import FormBot from './client/components/form-bot.jsx';
 import renderer from 'react-test-renderer';
+import ListDesc from './client/desc.jsx';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -146,4 +148,27 @@ describe('other functionality for FormBot', () => {
     wrapper.find('.sub-but').simulate('submit');
     expect(wrapper.state('total')).not.toBe(0);
   });
+});
+
+describe("testing desc.jsx", () => {
+  var wrapper = mount(<ListDesc />);
+  wrapper.setState({
+    maxGuests: 0,
+    title: `Michael's Testing Suite`,
+    address: '888 Testing Drive',
+    highlights: `Listing's highlights`,
+    introDesc: `Listing's introduction description`,
+    spaceDesc: `Listing's space description`,
+    guestDesc: `Listing's guest interaction description`,
+    otherDesc: `Listing's other descriptions`,
+    open: false
+  });
+
+  test('should state.open when button is clicked', () => {
+    expect(wrapper.state('open')).toBe(false);
+    wrapper.find('.more-info').simulate('click')
+    expect(wrapper.state('open')).toBe(true);
+  });
+
+  test('renders extra ')
 });
