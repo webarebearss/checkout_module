@@ -13,18 +13,12 @@ describe('testing Stars component', () => {
     reviews: 400,
     nightlyPrice: 50
   }
-  
-  test('should have a total of 6 spans', () => {
-    const wrapper = mount(<Header info={state} />);
-    expect(wrapper.find('span')).toHaveLength(6);
-  })
 
   test('should have 4 full (.fas) stars and 1 empty (.far) star', () => {
     const wrapper = mount(<Header info={state} />);
     expect(wrapper.find('.fas.fa-star')).toHaveLength(4);
     expect(wrapper.find('.far.fa-star')).toHaveLength(1);
   });
-
   test('should have render a half star if star has a decimal between .25 and .75', () => {
     state.stars = 3.25;
     const wrapper = mount(<Header info={state} />);
@@ -38,7 +32,6 @@ describe('testing Stars component', () => {
     expect(wrap.find('.fas.fa-star-half-alt')).toHaveLength(1);
     expect(wrap.find('.far.fa-star')).toHaveLength(1);
   });
-
   test('should render a full star for decimal above .75', () => {
     state.stars = 3.8;
     const wrapper = mount(<Header info={state} />);
@@ -46,7 +39,6 @@ describe('testing Stars component', () => {
     expect(wrapper.find('.fas.fa-star-half-alt')).toHaveLength(0);
     expect(wrapper.find('.far.fa-star')).toHaveLength(1);
   });
-
   test('should render a full star for decimal below .25', () => {
     state.stars = 3.24;
     const wrapper = mount(<Header info={state} />);
@@ -68,11 +60,9 @@ describe('Testing of props in Header component', () => {
     expect(wrapper.find('.reviews').children).toHaveLength(1);
     expect(wrapper.find('.reviews').text()).toEqual('<Stars /> 400');
   });
-
   test('should render price per night in first child div', () => {
     expect(wrapper.childAt(0).text()).toEqual('$50 per night');
   });
-
   test('should take price from passed props', () => {
     state.nightlyPrice = 100;
     const wrapper = shallow(<Header info={state} />);
@@ -96,7 +86,6 @@ describe('increasing and decreasing guests in FormBot', () => {
     wrapper.find('.plus').simulate('click');
     expect(wrapper.state('guests')).toBe(2);
   });
-
   test('should not exceed mexGuests', () => {
     wrapper.find('.plus').simulate('click');
     expect(wrapper.state('guests')).toBe(3);
@@ -111,13 +100,35 @@ describe('increasing and decreasing guests in FormBot', () => {
     wrapper.find('.minus').simulate('click');
     expect(wrapper.state('guests')).toBe(1);
   });
-
   test('should not go below 1 guest', () => {
     wrapper.setState({guests: 2});
     wrapper.find('.minus').simulate('click');
     expect(wrapper.state('guests')).toBe(1);
     wrapper.find('.minus').simulate('click');
     expect(wrapper.state('guests')).toBe(1);
+  });
+});
+
+describe('other functionality for FormBot', () => {
+  var state = {
+    showPayment: false,
+    numNights: 3,
+    nightlyPrice: 50,
+    cleaningFee: 100,
+    serviceFee: 20,
+    maxGuests: 4,
+  }
+
+  const wrapper = mount(<FormBot details={state} />);
+
+  test('should not render the bottom form if showPayment is false', () => {
+    expect(wrapper.find('.form-form')).toHaveLength(0);
+  });
+
+  test('should render the bottom form if showPayment is true', () => {
+    state.showPayment = true;
+    const wrapper = mount(<FormBot details={state} />);
+    expect(wrapper.find('.form-form')).toHaveLength(1);
   });
 });
 
