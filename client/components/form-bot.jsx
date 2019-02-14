@@ -35,9 +35,9 @@ class FormBot extends React.Component {
                 <div className="form-line">
                     <div>Guests: </div>
                     <div className="line-value">
-                    <button onClick={this.decrease.bind(this)}> - </button>
+                    <button onClick={this.decrease.bind(this)} className="minus"> - </button>
                     {this.state.guests}
-                    <button onClick={this.increase.bind(this)}> + </button>
+                    <button onClick={this.increase.bind(this)} className="plus"> + </button>
                     </div>
                 </div>
                 <div className="form-line">
