@@ -130,33 +130,12 @@ describe('other functionality for FormBot', () => {
     const wrapper = mount(<FormBot details={state} />);
     expect(wrapper.find('.form-form')).toHaveLength(1);
   });
+
+  test('should update this.state.total when form is submitted', () => {
+    const checkOpenings = jest.fn();
+    const wrapper = mount(<FormBot details={state} checkOpenings={checkOpenings} />);
+    expect(wrapper.state('total')).toBe(0);
+    wrapper.find('.sub-but').simulate('submit');
+    expect(wrapper.state('total')).not.toBe(0);
+  });
 });
-
-// test('snapshot', () => {
-//   var state = {
-//     stars: 4,
-//     reviews: 400,
-//     nightlyPrice: 50
-//   }
-//   const wrapper = renderer.create(<Header info={state} />);
-//   console.log(wrapper.toJSON());
-//   console.log(wrapper.toJSON().children);
-//   console.log(wrapper.toJSON().children[0].children[0]);
-
-//   // expect(wrapper.findAllByType('span')).toHaveLength(2);
-//   expect(wrapper).toMatchSnapshot();
-// });
-
-
-
-// test('bot', () => {
-//   const state = {
-//     showPayment: true,
-//     numNights: 3,
-//     nightlyPrice: 50,
-//     cleaningFee: 100,
-//     serviceFee: 20,
-//   }
-//   const wrapper = shallow(<FormBot details={state}/>);
-//   expect(wrapper.find('button').text()).toEqual('BOOK');
-// });
