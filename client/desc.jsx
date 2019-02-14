@@ -80,7 +80,7 @@ class ListDesc extends React.Component {
 
                 <button className="more-info" onClick={this.toggle.bind(this)}> 
                     {this.state.open ? 
-                    <React.Fragment>{'Hide '}<i class="fas fa-angle-up"></i></React.Fragment> : 
+                    <React.Fragment>{'Hide '}<i className="fas fa-angle-up"></i></React.Fragment> : 
                     <React.Fragment>{'Read more about the space '}<i className="fas fa-angle-down"></i></React.Fragment>}
                 </button>
             </div>
