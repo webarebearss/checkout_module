@@ -87,5 +87,6 @@ class ListDesc extends React.Component {
         )
     }
 }
-
-ReactDOM.render(<ListDesc />, document.getElementById('desc'));
+// Added the export and the document.createElement for testing purposes
+export default ListDesc;
+ReactDOM.render(<ListDesc />, document.getElementById('desc') || document.createElement('div'));
