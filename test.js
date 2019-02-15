@@ -6,8 +6,23 @@ import Header from './client/components/form-top.jsx';
 import FormBot from './client/components/form-bot.jsx';
 import renderer from 'react-test-renderer';
 import ListDesc from './client/desc.jsx';
+import Checkout from './client/index.jsx';
+import $ from 'jquery';
+import moment from 'moment';
+
+jest.mock('jquery');
 
 Enzyme.configure({ adapter: new Adapter() });
+
+window.matchMedia = jest.fn().mockImplementation(query => {
+  return {
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+  };
+});
 
 describe('testing Stars component', () => {
   var state = {
@@ -152,17 +167,6 @@ describe('other functionality for FormBot', () => {
 
 describe("testing desc.jsx", () => {
   var wrapper = mount(<ListDesc />);
-  wrapper.setState({
-    maxGuests: 0,
-    title: `Michael's Testing Suite`,
-    address: '888 Testing Drive',
-    highlights: `Listing's highlights`,
-    introDesc: `Listing's introduction description`,
-    spaceDesc: `Listing's space description`,
-    guestDesc: `Listing's guest interaction description`,
-    otherDesc: `Listing's other descriptions`,
-    open: false
-  });
 
   test('should state.open when button is clicked', () => {
     expect(wrapper.state('open')).toBe(false);
@@ -170,5 +174,181 @@ describe("testing desc.jsx", () => {
     expect(wrapper.state('open')).toBe(true);
   });
 
-  test('renders extra ')
+  test('should make ajax request with correct params', () => {
+    wrapper.instance().fetchRoom();
+    expect($.ajax).toBeCalledWith({
+      success: expect.any(Function),
+      error: expect.any(Function),
+      type: 'GET',
+      url: '/rooms/1'
+    });
+  });
+
+  //NOT WORKING <------------------------------------------------------------------
+  test('should change state on successful ajax request',  () => {
+    wrapper.instance().fetchRoom();
+    $.ajax.mock.calls[0][0].success([{
+      maxGuests: 4,
+      title: `Michael's Testing Suite`,
+      address: '888 Testing Drive',
+      highlights: `Listing's highlights`,
+      introDesc: `Listing's introduction description`,
+      spaceDesc: `Listing's space description`,
+      guestDesc: `Listing's guest interaction description`,
+      otherDesc: `Listing's other descriptions`,
+      open: true
+    }]);
+
+    expect(wrapper.state('maxGuests')).toBe(4);
+  });
+});
+
+describe('testing Checkout component from index.jsx', () => { 
+  const wrapper = mount(<Checkout />);
+
+  describe('testing modalOpen methods', () => {
+    test('should cause modalOpen value to become true when modalOpen executes', () => {
+      expect(wrapper.state('modalOpen')).toBe(false);
+      wrapper.instance().openModal();
+      expect(wrapper.state('modalOpen')).toBe(true);
+    });
+  
+    test('should cause modalOpen value to become false when closeModal executes', () => {
+      wrapper.setState({openModal: true});
+      expect(wrapper.state('modalOpen')).toBe(true);
+      wrapper.instance().closeModal();
+      expect(wrapper.state('modalOpen')).toBe(false);
+    });
+
+    test('should execute modalOpen when corresponding button is pressed', () => {
+      wrapper.find('.footer .sub-but').simulate('click');
+      expect(wrapper.state('modalOpen')).toBe(true);
+    });
+
+    test('should execute closeModal when corresponding button is pressed', () => {
+      wrapper.find('.close-but').simulate('click');
+      expect(wrapper.state('modalOpen')).toBe(false);
+    });
+  })
+
+  
+  
+  describe('testing checkOpenings method', () => {
+    const event = {
+      preventDefault() {},
+    };
+    const data = {};
+    const checkSpy = jest.spyOn(Checkout.prototype, 'makeReservation');
+    
+    test('should not call makeReservations if either start/endDate is null', () => {
+      wrapper.setState({
+        startDate: null,
+        endDate: moment('05-23-2019', 'MM-DD-YYYY'),
+        modalOpen: 'testing'
+      });
+      wrapper.instance().checkOpenings(event, data);
+      expect(checkSpy).not.toHaveBeenCalled();
+
+    });
+    
+    test('should not call makeReservations if reservedDays falls between startDate and endDate', () => {
+      wrapper.setState({
+        startDate: moment('05-23-2019', 'MM-DD-YYYY'),
+        endDate: moment('05-26-2019', 'MM-DD-YYYY'),
+        reservedDays: [['05-24-2019', '05-25-2019']],
+        modalOpen: 'testing'
+      });
+      wrapper.instance().checkOpenings(event, data);
+      expect(checkSpy).not.toHaveBeenCalled();
+      
+    });
+
+    test('should call makeReservations if no checks fail', () => {
+      wrapper.setState({
+        startDate: moment('05-23-2019', 'MM-DD-YYYY'),
+        endDate: moment('05-26-2019', 'MM-DD-YYYY'),
+        reservedDays: [],
+        modalOpen: 'testing'
+      });
+      wrapper.instance().checkOpenings(event, data);
+      expect(checkSpy).toHaveBeenCalled();
+    });
+  });
+  
+  describe('testing calculateDays method', () => {
+    test('should not change showPayment state or calculate nights if either start/end are null', () => {
+      wrapper.setState({
+        startDate: null,
+        endDate: moment('05-23-2019', 'MM-DD-YYYY'),
+      });
+      wrapper.instance().calculateDays();
+      expect(wrapper.state('showPayment')).toBe(false);
+      expect(wrapper.state('numNights')).toBe(0);
+    });
+
+    test('should calculate numNights when no checks fail and showPayment = true', () => {
+      wrapper.setState({
+        startDate: moment('05-20-2019', 'MM-DD-YYYY'),
+        endDate: moment('05-23-2019', 'MM-DD-YYYY'),
+      });
+      wrapper.instance().calculateDays();
+      expect(wrapper.state('showPayment')).toBe(true);
+      expect(wrapper.state('numNights')).toBe(3);
+    });
+  });
+
+  describe('testing isDayBlocked method', () => {
+    const day = moment('05-01-2019', 'MM-DD-YYYY');
+
+    test('should return false if day is not between reserved dates', () => {
+      wrapper.setState({
+        reservedDays: [['05-20-2019', '05-23-2019']],
+      });
+      expect(wrapper.instance().isDayBlocked(day)).toBe(false);
+    });
+    test('should return true if day is between reserved dates', () => {
+      wrapper.setState({
+        reservedDays: [['04-29-2019', '05-02-2019']],
+      });
+      expect(wrapper.instance().isDayBlocked(day)).toBe(true);
+    });
+  });
+
+  jest.resetModules();
+  jest.mock('jquery');
+// INCOMPLETE <-------------------------------------------------------------------
+  describe('testing makeReservation method', () => {
+    const reservationInfo = {
+      guests: 3,
+      total: 888
+    };
+    const makeSpy = jest.spyOn($, 'ajax');
+
+    test('should ', () => {
+      const $ = require('jquery');
+      const wrapper = shallow(<Checkout />);
+      wrapper.setState({
+        startDate: moment('05-20-2019', 'MM-DD-YYYY'),
+        endDate: moment('05-23-2019', 'MM-DD-YYYY'),
+      })
+
+      wrapper.instance().makeReservation(reservationInfo);
+      expect(makeSpy).toBeCalledTimes(1);
+    });
+  });
+
+  describe('testing rendering of the component based on screen width', () => {
+    const wrapper = shallow(<Checkout />);
+
+    test('should render as with footer class when screen width is less than 1150px', () => {
+      global.window.resizeTo(500, 500);
+      expect(wrapper.find('.footer')).toHaveLength(1);
+    });
+    
+    test('should not render as with footer class when screen width is greater than 1150px', () => {
+      global.window.resizeTo(1200, 1200);
+      console.log(global.window.innerWidth);
+      expect(wrapper.find('.close-but')).toHaveLength(0);
+    });
+  });
 });

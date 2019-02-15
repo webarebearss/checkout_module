@@ -101,6 +101,7 @@ class Checkout extends React.Component {
     if (this.state.startDate === null || this.state.endDate === null) {
       conflict = true;
     } else {
+
       for (var j = 0; j < resDates.length; j++) {
         if (moment(resDates[j][0], "MM-DD-YYYY").isBetween(this.state.startDate, this.state.endDate)) {
           conflict = true;
@@ -118,9 +119,9 @@ class Checkout extends React.Component {
         showPayment: false
       });
       
-      if (this.state.modalOpen) {
+      if (this.state.modalOpen === true) {
         $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.modal').fadeOut(1500);
-      } else {
+      } else if (this.state.modalOpen === false) {
         $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
       }
       conflict = false;
@@ -155,10 +156,10 @@ class Checkout extends React.Component {
           showPayment: false
         })
 
-        if (this.state.modalOpen) {
+        if (this.state.modalOpen === true) {
           $("<div class='warning'>Successfully booked</div>").prependTo('.modal').fadeOut(2000);
 
-        } else {
+        } else if (this.state.modalOpen === false) {
           $("<div class='warning'>Successfully booked</div>").prependTo('#app').fadeOut(2000);
         }
       },
@@ -301,4 +302,5 @@ class Checkout extends React.Component {
   }
 }
 
-ReactDOM.render(<Checkout />, document.getElementById('app'));
+export default Checkout;
+ReactDOM.render(<Checkout />, document.getElementById('app') || document.createElement('div'));
