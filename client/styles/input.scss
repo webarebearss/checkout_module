@@ -26,6 +26,7 @@ $small-font: 13px;
     bottom: $bottom;
     left: $left;
 }
+  
 @media screen and (max-width: 1149px) {
     #app {
         @include position(fixed, $bottom: 0px);
@@ -43,7 +44,9 @@ $small-font: 13px;
 
 @media screen and (min-width: 1150px) {
     #app {
-        @include position(fixed, $top: 20px, $left: 60%);
+        position: sticky;
+        top: 20px;
+        margin-top: 20px;
         width: $width;
         height: auto;
         justify-content: center;
