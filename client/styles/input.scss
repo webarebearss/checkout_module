@@ -37,12 +37,7 @@ $small-font: 13px;
     bottom: $bottom;
     left: $left;
 }
-<<<<<<< HEAD
 @media screen and (max-width: 1199px) {
-=======
-  
-@media screen and (max-width: 1149px) {
->>>>>>> 7f9949725fd6b3481c6f5b7dc7d016f6deed34c5
     #app {
         @include position(fixed, $bottom: 0px);
         width: 100%;
