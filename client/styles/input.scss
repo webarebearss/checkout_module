@@ -5,8 +5,18 @@ $border-bot: 1px solid rgb(218, 216, 216);
 $button-size: 24px;
 $small-font: 13px;
 
-.modal {
-    position: absolute;
+.checkout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+    z-index: 6;
+}
+
+.checkout-modal {
+    position: fixed;
     top: 40%;
     left: 50%;
     right: auto;
@@ -17,6 +27,7 @@ $small-font: 13px;
     height: auto;
     border: 1px solid rgb(206, 206, 206);
     outline: none;
+    z-index: 7;
 }
 
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
@@ -26,7 +37,7 @@ $small-font: 13px;
     bottom: $bottom;
     left: $left;
 }
-@media screen and (max-width: 1149px) {
+@media screen and (max-width: 1199px) {
     #app {
         @include position(fixed, $bottom: 0px);
         width: 100%;
@@ -41,9 +52,11 @@ $small-font: 13px;
     }
 }
 
-@media screen and (min-width: 1150px) {
+@media screen and (min-width: 1200px) {
     #app {
-        @include position(fixed, $top: 20px, $left: 60%);
+        position: sticky;
+        top: 20px;
+        margin-top: 20px;
         width: $width;
         height: auto;
         justify-content: center;
