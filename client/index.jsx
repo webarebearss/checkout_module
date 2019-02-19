@@ -172,11 +172,35 @@ class Checkout extends React.Component {
   // Calculates the number of nights the reservation is
   // Only calculates if both startDate and endDate have non-null values
   calculateDays() {
+    var resDates = this.state.reservedDays;
+    var conflict = false;
+
     if (this.state.startDate !== null && this.state.endDate !== null) {
-      this.setState({
-        numNights: (this.state.endDate).diff(this.state.startDate, 'days'),
-        showPayment: true
-      })
+      for (var j = 0; j < resDates.length; j++) {
+        if (moment(resDates[j][0], "MM-DD-YYYY").isBetween(this.state.startDate, this.state.endDate)) {
+          conflict = true;
+          break;
+        }
+      }
+
+      if (conflict) {
+        this.setState({
+          startDate: null,
+          endDate: null,
+          showPayment: false
+        });
+        
+        if (this.state.modalOpen === true) {
+          $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.checkout-modal').fadeOut(1500);
+        } else if (this.state.modalOpen === false) {
+          $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
+        }
+      } else {
+        this.setState({
+          numNights: (this.state.endDate).diff(this.state.startDate, 'days'),
+          showPayment: true
+        })
+      }
     } else {
       console.log('null');
       this.setState({
@@ -252,8 +276,8 @@ class Checkout extends React.Component {
                     <Modal
                       isOpen={this.state.modalOpen}
                       onRequestClose={this.closeModal}
-                      className="modal"
-                      contentLabel="Example Modal"
+                      className="checkout-modal"
+                      overlayClassName="checkout-overlay"
                     >
                       <button className="close-but" onClick={this.closeModal}>X</button>
 
