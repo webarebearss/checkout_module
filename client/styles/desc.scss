@@ -35,6 +35,16 @@ body {
     }
 }
 
+@media screen and (max-width: 576px) {
+    #desc {
+        max-width: 400px;
+        margin: 10px 18px auto 18px;
+        .headers{
+            width: 360px !important;
+        }
+    }
+}
+
 #desc {
     width: 600px;
     min-height: calc(100vh - 70px);

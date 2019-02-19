@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import './styles/desc.scss';
+import Media from 'react-media';
 
 class ListDesc extends React.Component {
     constructor(props) {
@@ -55,11 +56,34 @@ class ListDesc extends React.Component {
             <div className="container">
                 <div className="title">{this.state.title}</div>
                 <div className="address">{this.state.address}</div>
-                <div className="headers">
-                    <div><i className="fas fa-paw"></i> {this.state.maxGuests} guests</div>
-                    <div><i className="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
-                    <div><i className="fas fa-bed"></i> {this.state.maxGuests} beds</div>
-                    <div><i className="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
+                <div>
+                    <Media query="(max-width: 576px)">
+                        {matches =>
+                            matches ? (
+                                <div>
+                                    <div className="headers">
+                                        <div><i className="fas fa-paw"></i> {this.state.maxGuests} guests</div>
+                                        <div><i className="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
+                                    </div>
+                                    <div className="headers">
+                                        <div><i className="fas fa-bed"></i> {this.state.maxGuests} beds</div>
+                                        <div><i className="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
+                                    </div>
+
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="headers">
+                                        <div><i className="fas fa-paw"></i> {this.state.maxGuests} guests</div>
+                                        <div><i className="fas fa-tree"></i> {Math.ceil(this.state.maxGuests / 2)} bedrooms</div>
+                                        <div><i className="fas fa-bed"></i> {this.state.maxGuests} beds</div>
+                                        <div><i className="fas fa-water"></i> {Math.ceil(this.state.maxGuests / 2)} baths</div>
+                                    </div>
+
+                                </div>
+                            )
+                        }
+                    </Media>
                 </div>
 
                 <div className="highlights">
