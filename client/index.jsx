@@ -225,7 +225,7 @@ class Checkout extends React.Component {
   render() {
     return (
         <div>
-          <Media query="(min-width: 1150px)">
+          <Media query="(min-width: 1200px)">
             {matches =>
               matches ? (
               <div>

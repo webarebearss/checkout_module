@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/node: 8.11
-      - image: circleci/postgres: 11.1
     steps:
-      - checkout
-      - run: echo "A first hello"
+      - run: npm install
+      - run: npm test

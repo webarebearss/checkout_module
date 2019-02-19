@@ -10,17 +10,9 @@ global.window.resizeTo = (width, height) => {
   };
 
   
-window.matchMedia = window.matchMedia || function(query) {
-    const queryMap = {
-        '(min-width: 1150px)': () => window.innerWidth >= 1150,
-        '(max-width: 1149px)': () => window.innerWidth < 1150
-    };
-
-    const queryValue = queryMap[query];
-    const matches = queryValue ? queryValue() : false;
-
+window.matchMedia = window.matchMedia || function() {
     return {
-        matches: true,
+        matches: false,
         addListener : function() {},
         removeListener: function() {}
     };
