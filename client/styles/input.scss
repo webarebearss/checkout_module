@@ -30,12 +30,17 @@ $small-font: 13px;
     z-index: 7;
 }
 
+
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
     position: $position;
     top: $top;
     right: $right;
     bottom: $bottom;
     left: $left;
+}
+
+#app {
+    background-color: white;
 }
 @media screen and (max-width: 1199px) {
     #app {
@@ -66,6 +71,20 @@ $small-font: 13px;
     }
 }
 
+
+@media screen and (max-width: 576px) {
+    .sub-but {
+        max-width: 40% !important;
+        margin: 10px auto auto 10px !important;
+    }
+    .footer {
+        .header {
+            margin: 10px 10px auto auto;
+        }
+    }
+}
+
+
 .price {
     font-weight: bold;
     font-size: 22px;
@@ -93,7 +112,7 @@ $small-font: 13px;
 
 .footer {
     display: flex;
-    width: 500px;
+    width: 350px;
     justify-content: space-between;
 
     .header {
@@ -109,7 +128,7 @@ $small-font: 13px;
     }
 
     .sub-but {
-        width: $width * .9;
+        width: 200px;
         height: $height;
         margin: 10px 0px 10px 0px;
         background-color: rgb(248, 125, 125);
@@ -123,7 +142,6 @@ $small-font: 13px;
         }
     }
 }
-
 
 .text-header {
     margin: 18px auto 5px auto;
@@ -157,7 +175,8 @@ $small-font: 13px;
                 border-radius: 50%;
                 color: red;
                 border: 1px solid red;
-                
+                text-align: center;
+
                 &:focus {
                     outline: 0;
                 }
@@ -208,4 +227,9 @@ $small-font: 13px;
     &:focus{
         outline: 0;
     }
+}
+
+.plus {
+    justify-content: center;
+    text-align: center;
 }
