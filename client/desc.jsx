@@ -24,8 +24,10 @@ class ListDesc extends React.Component {
     }
 
     fetchRoom() {
+        let listingId = window.location.pathname.split('/')[2];
+
         $.ajax({
-          url: '/rooms/1',
+          url: `/rooms/checkout/${listingId}`,
           type: 'GET',
           success: (results) => {
             this.setState({
