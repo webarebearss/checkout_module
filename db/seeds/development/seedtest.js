@@ -5,10 +5,6 @@ const createFakeListings = () => ({
     'min': 70,
     'max': 250
   }),
-  // stars: faker.random.number({
-  //   'min': 1,
-  //   'max': 5,
-  // }),
   stars: faker.finance.amount(3,5,2),
   reviews: faker.random.number({
     'min': 10,
@@ -24,7 +20,7 @@ const createFakeListings = () => ({
   }),
   guests: faker.random.number({
     'min': 1,
-    'max': 4
+    'max': 8
   }),
   minNights: faker.random.number({
     'min': 1,
@@ -119,11 +115,11 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < desiredFakeData; i++) {
     fakeListings.push(createFakeListings());
   }
-  let desiredBookings = faker.random.number({'min': Math.floor(desiredFakeData*0.01), 'max': Math.floor(desiredFakeData*0.04)});
+  let desiredBookings = faker.random.number({'min': Math.floor(desiredFakeData*0.01), 'max': Math.floor(desiredFakeData*0.08)});
   for (let i = 0; i < desiredBookings; i++) {
     fakeBookings = fakeBookings.concat(createFakeBookings());
   }
-  console.log(fakeBookings.length);
+  console.log(desiredBookings, fakeBookings.length);
   await knex('listings')
     .insert(fakeListings);
   await knex('bookings')
