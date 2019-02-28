@@ -1,7 +1,13 @@
+const pw = require('./config.js').pw;
+const user = require('./config.js').user;
+
 module.exports = {
   test: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
+      host: '127.0.0.1',
+      user: user,
+      password: pw,
       database: 'rooms'
     },
     migrations: {
@@ -12,15 +18,18 @@ module.exports = {
     }
   },
   development: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
+      host: '127.0.0.1',
+      user: user,
+      password: pw,
       database: 'rooms'
     },
     migrations: {
-      directory: __dirname + '/db/migrations'
+      directory: './db/migrations'
     },
     seeds: {
-      directory: __dirname + '/db/seeds/development'
+      directory: './db/seeds/development'
     }
   }
 }

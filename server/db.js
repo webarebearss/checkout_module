@@ -21,13 +21,40 @@ const getBookings = (listingId) => {
 }
 
 const bookRoom = (listingId, reservation) => {
-  console.log(listingId, reservation.checkIn, reservation.checkOut);
   return knex('bookings')
     .insert({checkin: reservation.checkIn, checkout: reservation.checkOut, numGuests: reservation.numGuests, total: reservation.total, listing_id: listingId});
+}
+
+const deleteBooking = (bookingId) => {
+  return knex('bookings')
+    .where('id', bookingId)
+    .del()
+}
+
+const updateBooking = (bookingId, update) => {
+  return knex('bookings')
+    .where('id', bookingId)
+    .update(update)
+}
+
+const deleteListing = (listingId) => {
+  return knex('listings')
+    .where({id: listingId})
+    .del()
+}
+
+const updateListing = (listingId, updated) => {
+  return knex('listings')
+    .where({id: listingId})
+    .update(updated)
 }
 
 module.exports = knex;
 module.exports.getRoom = getRoom;
 module.exports.bookRoom = bookRoom;
-module.exports.getBookings = getBookings
+module.exports.getBookings = getBookings;
+module.exports.updateListing = updateListing;
+module.exports.deleteListing = deleteListing;
+module.exports.deleteBooking = deleteBooking;
+module.exports.updateBooking = updateBooking;
 knex.migrate.latest([config]);
