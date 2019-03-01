@@ -15,6 +15,13 @@ app.get('/rooms/bookings/:listingId', (req, res) => {
   });
 });
 
+app.post('/rooms/listings', (req, res) => {
+  db.newListing(req.body)
+    .then(() => {
+      res.end();
+    })
+})
+
 app.route('/rooms/checkout/booking/:bookingId')
   .delete((req,res) => {
     db.deleteBooking(req.params.bookingId)

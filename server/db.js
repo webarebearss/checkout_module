@@ -11,7 +11,6 @@ const getRoom = (listingId) => {
     });
 }
 
-
 const getBookings = (listingId) => {
   return knex('bookings')
     .where ({listing_id: listingId})
@@ -49,6 +48,11 @@ const updateListing = (listingId, updated) => {
     .update(updated)
 }
 
+const newListing = listing => {
+  return knex('listings')
+    .insert(listing)
+}
+
 module.exports = knex;
 module.exports.getRoom = getRoom;
 module.exports.bookRoom = bookRoom;
@@ -57,4 +61,5 @@ module.exports.updateListing = updateListing;
 module.exports.deleteListing = deleteListing;
 module.exports.deleteBooking = deleteBooking;
 module.exports.updateBooking = updateBooking;
+module.exports.newListing = newListing;
 knex.migrate.latest([config]);

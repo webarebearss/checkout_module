@@ -5,7 +5,7 @@
 
 `GET` /rooms/checkout/:listingId
 
-`POST` /rooms/checkout/:listing_id
+`POST` /rooms/listings
 
 `PUT` /rooms/checkout/:listing_id
 
@@ -23,7 +23,7 @@
 
 `GET` /rooms/bookings/:listingId
 
-`POST` /rooms/checkout/booking/:bookingId
+`POST` /rooms/checkout/:listing_id
 
 `PUT` /rooms/checkout/booking/:bookingId
 
