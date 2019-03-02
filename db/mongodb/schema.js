@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb:localhost/rooms');
 
 const listingSchema = new mongoose.Schema({
-  id: {type: String, unique: true, require: true},
+  id: {type: Number, index: true},
   price: {type: Number, require: true},
-  stars: Schema.Types.Decimal128,
+  stars: {type: Number},
   reviews: {type: Number},
   cleaningFee: {type: Number, require: true},
   serviceFee: {type: Number, require: true},
@@ -20,7 +19,7 @@ const listingSchema = new mongoose.Schema({
 });
 
 const bookingSchema = new mongoose.Schema({
-  id: {type: String, unique: true},
+  id: {type: Number, index: true},
   checkin: {type: String, require: true},
   checkout: {type: String, require: true},
   numGuests: {type: Number, require: true},

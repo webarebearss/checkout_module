@@ -14,7 +14,7 @@ module.exports = {
       directory: __dirname + '/db/mariadb/migrations'
     },
     seeds: {
-      directory: __dirname + '/db/mariadb/seeds/development'
+      directory: __dirname + './db/mariadb/seeds/development'
     }
   },
   development: {
