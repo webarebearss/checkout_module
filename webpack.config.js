@@ -1,6 +1,7 @@
-var path = require('path');
-var SRC_DIR = path.join(__dirname, '/client');
-var DIST_DIR = path.join(__dirname, '/public');
+const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
+const SRC_DIR = path.join(__dirname, '/client');
+const DIST_DIR = path.join(__dirname, '/public');
 
 module.exports = {
   entry: {
@@ -11,11 +12,12 @@ module.exports = {
     path: DIST_DIR
   },
   module : {
-    loaders : [
+    rules: [
       {
         test : /\.jsx?/,
         include : SRC_DIR,
         loader : 'babel-loader',
+        exclude: /node_modules/,
         query: {
           presets: ['react', 'es2015']
         }
@@ -33,6 +35,7 @@ module.exports = {
       },
       {
         test : /\.scss$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'style-loader'
@@ -46,5 +49,11 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  resolve: {
+    extensions: ['.js']
+  },
+  plugins: [
+    new CompressionPlugin()
+  ]
 };
