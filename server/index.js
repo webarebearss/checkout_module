@@ -1,10 +1,30 @@
-const nr = require('newrelic');
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const cors = require('cors');
 const db = require('./db');
+const redis = require('redis');
+let port = 3000;
+
+const client = redis.createClient();
 const app = express();
+
+const cache = (req,res,next) => {
+  let key = '__express__' + req.originalUrl || req.url;
+  client.get(key, (err, cachedBody) => {
+    if(cachedBody) {
+      res.send(JSON.parse(cachedBody));
+    } else {
+      res.sendResponse = res.send;
+      res.send = (body) => {
+        client.setex(key, 45, JSON.stringify(body));
+        res.sendResponse(body);
+      }
+      next();
+    }
+  })
+}
 
 app.use(bodyParser.json());
 app.use(compress());
@@ -12,17 +32,12 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/rooms/:listingId', express.static(__dirname + '/../public'));
 
-let port = 3000;
-
-app.get('*.gz', (req, res, next) => {
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
-
-app.get('/rooms/bookings/:listingId', (req, res) => {
-  db.getBookings(req.params.listingId).then(records => {
-    res.send(records);
-  });
+app.get('/rooms/bookings/:listingId',cache, (req, res) => {
+  db.getBookings(req.params.listingId)
+    .then(records => {
+      res.send(records);
+    })
+    .catch(err => console.log(err));
 });
 
 app.post('/rooms/listings', (req, res) => {
@@ -30,6 +45,7 @@ app.post('/rooms/listings', (req, res) => {
     .then(() => {
       res.end();
     })
+    .catch(err => console.log(err));
 })
 
 app.route('/rooms/checkout/booking/:bookingId')
@@ -38,12 +54,14 @@ app.route('/rooms/checkout/booking/:bookingId')
       .then(() => {
         res.end();
       })
+      .catch(err => console.log(err));
   })
   .put((req, res) => {
     db.updateBooking(req.params.bookingId, req.body)
       .then(() => {
         res.end();
-      });
+      })
+      .catch(err => console.log(err));
   });
 
 app.route('/rooms/checkout/:listingId')
@@ -52,27 +70,32 @@ app.route('/rooms/checkout/:listingId')
       .then(() => {
         res.end();
       })
+      .catch(err => console.log(err));
   })
   .post((req, res) => {
     db.bookRoom(req.params.listingId, req.body)
       .then(() => {
         res.end();
       })
+      .catch(err => console.log(err));
   })
   .put((req, res) => {
     db.updateListing(req.params.listingId, req.body)
       .then(() => {
         res.end();
       })
+      .catch(err => console.log(err));
   })
-  .get((req, res) => {
-    db.getRoom(req.params.listingId).then(records => {
-      res.send(records);
-    })
+  .get(cache, (req, res) => {
+    db.getRoom(req.params.listingId)
+      .then(records => {
+        res.send(records);
+      })
+      .catch(err => console.log(err));
   });
 
 var server = app.listen(port, function() {
-  console.log(`listening on post ${port}`);
+  console.log(`listening on port ${port}`);
 });
 
 module.exports = server;
