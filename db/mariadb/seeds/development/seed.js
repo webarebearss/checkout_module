@@ -35,7 +35,7 @@ const createListing = () => ({
   otherDesc: faker.lorem.paragraphs(nb=faker.random.number({'min': 1, 'max': 3}))
 });
 
-let target = 10031000;
+let target = 10000000;
 let minTarget = 1;
 
 const createBookings = () => ([
@@ -117,15 +117,12 @@ exports.seed = async function(knex, Promise) {
   let increment = () => {
     count++;
   }
-  while (count <= 1433) {
+  while (count <= 2000) {
     const fakeListings = [];
     let fakeBookings = [];
-    const desiredFakeData = 7000;
+    const desiredFakeData = 5000;
     for (let i = 0; i < desiredFakeData; i++) {
       fakeListings.push(createListing());
-    }
-    let desiredBookings = faker.random.number({'min': Math.floor(desiredFakeData*0.08), 'max': Math.floor(desiredFakeData*0.1)});
-    for (let i = 0; i < desiredBookings; i++) {
       fakeBookings = fakeBookings.concat(createBookings());
     }
     await knex('listings')

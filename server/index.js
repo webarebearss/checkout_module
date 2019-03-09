@@ -1,13 +1,23 @@
+const nr = require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
+const compress = require('compression');
+const cors = require('cors');
 const db = require('./db');
+const app = express();
 
-let app = express();
 app.use(bodyParser.json());
+app.use(compress());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/rooms/:listingId', express.static(__dirname + '/../public'));
 
 let port = 3000;
+
+app.get('*.gz', (req, res, next) => {
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
 
 app.get('/rooms/bookings/:listingId', (req, res) => {
   db.getBookings(req.params.listingId).then(records => {

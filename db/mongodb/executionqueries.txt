@@ -1,0 +1,35 @@
+> db.bookings.find({listing_id:1231}).pretty().explain("executionStats")
+{
+			"nReturned" : 3,
+			"executionTimeMillisEstimate" : 2739,
+}
+
+--> after creating an index on listing_id in bookings
+{
+      "nReturned" : 3,
+			"executionTimeMillisEstimate" : 0,
+}
+
+> db.bookings.find({listing_id:902310}).pretty().explain("executionStats")
+{
+			"nReturned" : 2,
+			"executionTimeMillisEstimate" : 2741,
+}
+
+---> after creating an index on listing_id in bookings
+{
+      "nReturned" : 2,
+			"executionTimeMillisEstimate" : 0,
+}
+
+> db.listings.find({id:1000023}).explain("executionStats")
+{
+		"nReturned" : 1,
+		"executionTimeMillis" : 0,
+}
+
+> db.listings.find({id:10234560}).explain("executionStats")
+{
+		"nReturned" : 1,
+		"executionTimeMillis" : 4,
+}
