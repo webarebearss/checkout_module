@@ -3,13 +3,13 @@
 
 #### Room Listing Reservation Checkout
 
-`GET` /rooms/checkout/:listingId
+`GET` /rooms/:listingId
 
 `POST` /rooms/listings
 
-`PUT` /rooms/checkout/:listing_id
+`PUT` /rooms/:listing_id
 
-`DELETE` /rooms/checkout/:listing_id
+`DELETE` /rooms/:listing_id
 
 #### Parameters
 
@@ -23,11 +23,11 @@
 
 `GET` /rooms/bookings/:listingId
 
-`POST` /rooms/checkout/:listing_id
+`POST` /rooms/bookings/:listing_id
 
-`PUT` /rooms/checkout/booking/:bookingId
+`PUT` /rooms/booking/:bookingId
 
-`DELETE` /rooms/checkout/booking/:bookingId
+`DELETE` /rooms/booking/:bookingId
 
 #### Parameters
 
