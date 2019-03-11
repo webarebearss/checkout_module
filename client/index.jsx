@@ -30,7 +30,7 @@ class Checkout extends React.Component {
       endDate: null,
       focusedInput: null,
       reservedDays: [],
-      modalOpen: false
+      modalOpen: false,
     }
 
     this.openModal = this.openModal.bind(this);
@@ -51,10 +51,10 @@ class Checkout extends React.Component {
 
 // Get request for listing information
   fetchRoom() {
-    let listingId = window.location.pathname.split('/')[2];
+    let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
-      url: `/rooms/checkout/${listingId}`,
+      url: `/rooms/${listingId}`,
       type: 'GET',
       success: (results) => {
         this.setState({
@@ -79,7 +79,7 @@ class Checkout extends React.Component {
     this.setState({
       reservedDays: []
     });
-    let listingId = window.location.pathname.split('/')[2];
+    let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
       url: `/rooms/bookings/${listingId}`,
@@ -121,14 +121,14 @@ class Checkout extends React.Component {
         endDate: null,
         showPayment: false
       });
-      
+
       if (this.state.modalOpen === true) {
         $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.checkout-modal').fadeOut(1500);
       } else if (this.state.modalOpen === false) {
         $("<div class='warning'>Please select a valid range of dates</div>").prependTo('#app').fadeOut(1500);
       }
       conflict = false;
-    } else {   
+    } else {
       this.makeReservation(data);
     }
   }
@@ -138,10 +138,10 @@ class Checkout extends React.Component {
     // Takes the date from the moment and replaces the / with - for entry into the database
     var checkin = this.state.startDate.format('L').replace(/[/]/g, '-');
     var checkout = this.state.endDate.format('L').replace(/[/]/g, '-');
-    let listingId = window.location.pathname.split('/')[2];
+    let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
-      url: `/rooms/checkout/${listingId}`,
+      url: `/rooms/bookings/${listingId}`,
       type: 'post',
       data: {
         checkIn: checkin,
@@ -193,7 +193,7 @@ class Checkout extends React.Component {
           endDate: null,
           showPayment: false
         });
-        
+
         if (this.state.modalOpen === true) {
           $("<div class='warning'>Please select a valid range of dates</div>").prependTo('.checkout-modal').fadeOut(1500);
         } else if (this.state.modalOpen === false) {
@@ -243,7 +243,7 @@ class Checkout extends React.Component {
                     endDateId="endDate"
                     startDate={this.state.startDate}
                     endDate={this.state.endDate}
-                    onDatesChange={({ startDate, endDate }) => { 
+                    onDatesChange={({ startDate, endDate }) => {
                       this.setState({ startDate, endDate }, () => {this.calculateDays()})
                     }}
                     focusedInput={this.state.focusedInput}
@@ -251,7 +251,7 @@ class Checkout extends React.Component {
                     numberOfMonths={1}
                     calendarInfoPosition={"bottom"}
                     renderCalendarInfo={() => {
-                      return <div className="info"> 
+                      return <div className="info">
                         <div>{this.state.minNights + ' night(s) minimum'}</div>
                         <div>{this.state.maxGuests + ' guests allowed'}</div>
                       </div>
@@ -259,7 +259,7 @@ class Checkout extends React.Component {
                     hideKeyboardShortcutsPanel={true}
                     minimumNights={this.state.minNights}
                     isDayBlocked={this.isDayBlocked.bind(this)}
-                    onFocusChange={(focusedInput) => { 
+                    onFocusChange={(focusedInput) => {
                       this.setState({ focusedInput })
                     }}
                   />
@@ -295,7 +295,7 @@ class Checkout extends React.Component {
                           endDateId="endDate"
                           startDate={this.state.startDate}
                           endDate={this.state.endDate}
-                          onDatesChange={({ startDate, endDate }) => { 
+                          onDatesChange={({ startDate, endDate }) => {
                             this.setState({ startDate, endDate }, () => {this.calculateDays()})
                           }}
                           focusedInput={this.state.focusedInput}
@@ -303,7 +303,7 @@ class Checkout extends React.Component {
                           numberOfMonths={1}
                           calendarInfoPosition={"bottom"}
                           renderCalendarInfo={() => {
-                            return <div className="info"> 
+                            return <div className="info">
                               <div>{this.state.minNights + ' night(s) minimum'}</div>
                               <div>{this.state.maxGuests + ' guests allowed'}</div>
                             </div>
@@ -311,7 +311,7 @@ class Checkout extends React.Component {
                           hideKeyboardShortcutsPanel={true}
                           minimumNights={this.state.minNights}
                           isDayBlocked={this.isDayBlocked.bind(this)}
-                          onFocusChange={(focusedInput) => { 
+                          onFocusChange={(focusedInput) => {
                             this.setState({ focusedInput })
                           }}
                         />

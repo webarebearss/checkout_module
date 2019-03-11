@@ -1,13 +1,11 @@
 # Project Name
 
-> Project description
+> Bearbnb, an online marketplace for renting out homes and vacation stays.
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/webarebearss/Thomas-Slideshow-Module
+  - https://github.com/webarebearss/Reviews-Module
 
 ## Table of Contents
 
@@ -36,4 +34,3 @@ From within the root directory:
 npm install -g webpack
 npm install
 ```
-

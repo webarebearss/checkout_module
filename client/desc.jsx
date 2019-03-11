@@ -24,10 +24,10 @@ class ListDesc extends React.Component {
     }
 
     fetchRoom() {
-        let listingId = window.location.pathname.split('/')[2];
+        let listingId = window.location.pathname.split('/')[1];
 
         $.ajax({
-          url: `/rooms/checkout/${listingId}`,
+          url: `/rooms/${listingId}`,
           type: 'GET',
           success: (results) => {
             this.setState({
@@ -104,9 +104,9 @@ class ListDesc extends React.Component {
                     <div className="otherDesc">{this.state.otherDesc}</div>
                 </div>
 
-                <button className="more-info" onClick={this.toggle.bind(this)}> 
-                    {this.state.open ? 
-                    <React.Fragment>{'Hide '}<i className="fas fa-angle-up"></i></React.Fragment> : 
+                <button className="more-info" onClick={this.toggle.bind(this)}>
+                    {this.state.open ?
+                    <React.Fragment>{'Hide '}<i className="fas fa-angle-up"></i></React.Fragment> :
                     <React.Fragment>{'Read more about the space '}<i className="fas fa-angle-down"></i></React.Fragment>}
                 </button>
             </div>
