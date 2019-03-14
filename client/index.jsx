@@ -31,6 +31,7 @@ class Checkout extends React.Component {
       focusedInput: null,
       reservedDays: [],
       modalOpen: false,
+      listingId: '10000000',
     }
 
     this.openModal = this.openModal.bind(this);
@@ -51,10 +52,10 @@ class Checkout extends React.Component {
 
 // Get request for listing information
   fetchRoom() {
-    let listingId = window.location.pathname.split('/')[1];
+    // let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
-      url: `/rooms/${listingId}`,
+      url: `/rooms/${this.state.listingId}`,
       type: 'GET',
       success: (results) => {
         this.setState({
@@ -79,10 +80,10 @@ class Checkout extends React.Component {
     this.setState({
       reservedDays: []
     });
-    let listingId = window.location.pathname.split('/')[1];
+    // let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
-      url: `/rooms/bookings/${listingId}`,
+      url: `/rooms/bookings/${this.state.listingId}`,
       type: 'get',
       success: (results) => {
         for (var i = 0; i < results.length; i++) {
@@ -138,10 +139,10 @@ class Checkout extends React.Component {
     // Takes the date from the moment and replaces the / with - for entry into the database
     var checkin = this.state.startDate.format('L').replace(/[/]/g, '-');
     var checkout = this.state.endDate.format('L').replace(/[/]/g, '-');
-    let listingId = window.location.pathname.split('/')[1];
+    // let listingId = window.location.pathname.split('/')[1];
 
     $.ajax({
-      url: `/rooms/bookings/${listingId}`,
+      url: `/rooms/bookings/${this.state.listingId}`,
       type: 'post',
       data: {
         checkIn: checkin,

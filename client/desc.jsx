@@ -16,7 +16,8 @@ class ListDesc extends React.Component {
             spaceDesc: '',
             guestDesc: '',
             otherDesc: '',
-            open: false
+            open: false,
+            listingId: '10000000',
         }
     }
     componentDidMount() {
@@ -24,10 +25,9 @@ class ListDesc extends React.Component {
     }
 
     fetchRoom() {
-        let listingId = window.location.pathname.split('/')[1];
-
+        // let listingId = window.location.pathname.split('/')[1];
         $.ajax({
-          url: `/rooms/${listingId}`,
+          url: `/rooms/${this.state.listingId}`,
           type: 'GET',
           success: (results) => {
             this.setState({

@@ -1,5 +1,5 @@
 var config = require('../knexfile.js');
-var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'production';
 var knex = require('knex')(config[env]);
 
 const getRoom = (listingId) => {

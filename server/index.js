@@ -1,36 +1,22 @@
 require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
-const compress = require('compression');
 const cors = require('cors');
 const db = require('./db');
-// const redis = require('redis');
-let port = 3000;
-
-// const client = redis.createClient();
+let port = 3001;
+const cache = require('express-redis-cache')({port: 6379, host: process.env.REDIS_HOST});
 const app = express();
 
-// const cache = (req,res,next) => {
-//   let key = '__express__' + req.originalUrl || req.url;
-//   client.get(key, (err, cachedBody) => {
-//     if(cachedBody) {
-//       res.send(JSON.parse(cachedBody));
-//     } else {
-//       res.sendResponse = res.send;
-//       res.send = (body) => {
-//         client.setex(key, 30, JSON.stringify(body));
-//         res.sendResponse(body);
-//       }
-//       next();
-//     }
-//   })
-// }
+app.get('*.gz', (req, res, next) => {
+ res.set('Content-Encoding', 'gzip');
+ res.set('Content-Type', 'text/javascript');
+ next();
+});
 
 app.use(bodyParser.json());
-app.use(compress());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/:listingId', express.static(__dirname + '/../public'));
+app.use('/', express.static(__dirname + '/../public'));
 
 app.post('/rooms/listings', (req, res) => {
   db.newListing(req.body)
@@ -87,13 +73,19 @@ app.route('/rooms/:listingId')
       })
       .catch(err => console.log(err));
   })
-  .get((req, res) => {
+  .get(cache.route(), (req, res) => {
     db.getRoom(req.params.listingId)
       .then(records => {
         res.send(records);
       })
       .catch(err => console.log(err));
   });
+
+app.get('/loaderio-d95d28303953aa8e9650a1f50c90a974', (req, res) => {
+  res.send('loaderio-d95d28303953aa8e9650a1f50c90a974');
+  res.end();
+})
+
 
 var server = app.listen(port, function() {
   console.log(`listening on port ${port}`);
